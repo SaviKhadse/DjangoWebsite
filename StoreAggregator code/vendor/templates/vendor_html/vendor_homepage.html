@@ -1,0 +1,363 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StoreAggregator</title>
+
+    <link
+      rel="stylesheet"
+      href="{% static 'vendor_css/swiper.css' %}"
+    />
+    <!-- font awesome cdn link  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="{% static 'vendor_css/style.css' %}" />
+  </head>
+  <body>
+    <!-- header section starts  -->
+    <header class="header">
+      <a href="#" class="logo">
+        <i class="fas fa-shopping-basket"></i> StoreAggregator
+      </a>
+
+      <style>
+        /* The navigation menu */
+        .navbar {
+          overflow: hidden;
+        }
+        
+        /* Navigation links */
+        .navbar a {
+          float: left;
+          font-size: 16px;
+          color: rgb(4, 4, 4);
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+        }
+        
+        /* The subnavigation menu */
+        .subnav {
+          float: left;
+          overflow: hidden;
+        }
+        
+        /* Subnav button */
+        .subnav .subnavbtn {
+          font-size: 16px; 
+          border: none;
+          outline: none;
+          color: rgb(5, 5, 5);
+          padding: 14px 16px;
+          background-color: inherit;
+          font-family: inherit;
+          margin: 0;
+        }
+        
+        /* Style the subnav content - positioned absolute */
+        .subnav-content {
+          display: none;
+          position: absolute;
+          left: 0;
+          background-color: rgb(123, 116, 109);
+          width: 100%;
+          z-index: 1;
+        }
+        
+        /* Style the subnav links */
+        .subnav-content a {
+          float: right;
+          color: white;
+          text-decoration: none;
+          padding-right: 5rem;
+        }
+        
+        /* Add a grey background color on hover */
+        .subnav-content a:hover {
+          color: black;
+        }
+        
+        /* When you move the mouse over the subnav container, open the subnav content */
+        .subnav:hover .subnav-content {
+          display: block;
+        }
+      </style>
+
+      <nav class ="navbar">
+        <a href="#home">home</a>
+        <a href="#categories">categories</a>
+        <a href="/vendors/dashboard/">Dashboard</a>
+        <div class="subnav">
+          <button class="subnavbtn">orders <i class="fa fa-caret-down"></i></button>
+          <div class="subnav-content">
+            {% for status in order_status%}
+            <a href="/vendors/home/orders/{{status.id}}">{{status.remark}}</a>
+            {% endfor %}
+          </div>
+      </nav>
+
+      <div class="icons">
+        <div class="fas fa-bars" id="menu-btn"></div>
+        <div class="fas fa-search" id="search-btn"></div>
+        <div class="fas fa-shopping-cart" id="cart-btn" style="display: none;"></div>
+        <div class="fas fa-user" id="myprofile-btn"></div>
+      </div>
+
+      <form action="" class="search-form">
+        <input type="search" id="search-box" placeholder="search here..." />
+        <label for="search-box" class="fas fa-search"></label>
+      </form>
+
+      <div class="shopping-cart">
+        
+      </div>
+
+      <!-- My Profile Form -->
+      <form action="" class="myprofile-form" method="post">
+        <div
+          class="iq-sub-dropdown dropdown-menu"
+          aria-labelledby="dropdownMenuButton"
+        >
+          <div class="card shadow-none m-0">
+            <div class="card-body p-0 text-center">
+              <div class="media-body profile-detail text-center">
+                {% if vendors.image %}
+                <img
+                  src="{{vendor.image.url}}"
+                  alt="profile-img1"
+                  class="rounded profile-img img-fluid avatar-70"
+                  style="width: 200px; height: 250px; border-radius: 50%;"
+                />
+                {% else %}
+                <img
+                  src="{% static 'user-image.png' %}"
+                  alt="profile-img"
+                  class="rounded profile-img img-fluid avatar-70"
+                  style="width: 200px; height: 250px; border-radius: 50%;"
+                />
+                {% endif %}
+              </div>
+              <div class="p-3">
+                <h2 class="mb-1">{{users.email}}</h2>
+                <h1 class="mb-0">Welcome {{users.first_name}}</h1>
+                <div
+                  class="d-flex align-items-center justify-content-center mt-3"
+                >
+                  <a
+                  href="/vendors/home/customer_profile_edit/"
+                    class="btn border mr-2"
+                  >
+                    Profile
+                  </a>
+                  <a href="/vendors/logout/" class="btn border">Sign Out</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </header>
+
+    <!-- header section ends -->
+
+    <!-- home section starts  -->
+
+    <section class="home" id="home">
+      <div class="content">
+        <h3>Welcome to <span>Store Aggregator inventory</span> Management</h3>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam
+          libero nostrum veniam facere tempore nisi.
+        </p>
+      </div>
+    </section>
+
+    <!-- home section ends -->
+
+    <section class="categories" id="categories" style="padding-top: -60px;">
+      <h1 class="heading">product <span>categories</span></h1>
+
+      <div class="box-container">
+          <div class="box">
+            <img src="{% static 'image/cat-1.png' %}" alt="" />
+            <h3>Grocery</h3>
+            <p>upto 45% off</p>
+            <a href="/vendors/home/products/list-product/Grocery" class="btn">Manage Grocery</a>
+          </div>
+
+          <div class="box">
+            <img src="{% static 'image/product-9.jpg' %}" alt="" />
+            <h3>Medicine</h3>
+            <p>Free Delivery on order of 30%</p>
+            <a href="/vendors/home/products/list-product/Medicine" class="btn">Manage Medicine</a>
+          </div>
+      </div>
+    </section>
+
+    
+
+    <!-- categories section starts  -->
+
+    <!-- categories section ends -->
+
+    <!-- review section starts  -->
+
+    <section class="review" id="review">
+      <h1 class="heading">customer's <span>review</span></h1>
+
+      <div class="swiper review-slider">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide box">
+            <img src="{% static 'image/pic-1.png' %}" alt="" />
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Unde
+              sunt fugiat dolore ipsum id est maxime ad tempore quasi tenetur.
+            </p>
+            <h3>john deo</h3>
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+          </div>
+
+          <div class="swiper-slide box">
+            <img src="{% static 'image/pic-2.png' %}" alt="" />
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Unde
+              sunt fugiat dolore ipsum id est maxime ad tempore quasi tenetur.
+            </p>
+            <h3>john deo</h3>
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+          </div>
+
+          <div class="swiper-slide box">
+            <img src="{% static 'image/pic-3.png' %}" alt="" />
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Unde
+              sunt fugiat dolore ipsum id est maxime ad tempore quasi tenetur.
+            </p>
+            <h3>john deo</h3>
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+          </div>
+
+          <div class="swiper-slide box">
+            <img src="{% static 'image/pic-4.png' %}" alt="" />
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Unde
+              sunt fugiat dolore ipsum id est maxime ad tempore quasi tenetur.
+            </p>
+            <h3>john deo</h3>
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- review section ends -->
+
+    <!-- blogs section starts  -->
+
+    
+
+    <!-- blogs section ends -->
+
+    <!-- footer section starts  -->
+
+    <section class="footer">
+      <div class="box-container">
+        <div class="box">
+          <h3>Storeaggregator <i class="fas fa-shopping-basket"></i></h3>
+          <p>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquam,
+            saepe.
+          </p>
+          <div class="share">
+            <a href="#" class="fab fa-facebook-f"></a>
+            <a href="#" class="fab fa-twitter"></a>
+            <a href="#" class="fab fa-instagram"></a>
+            <a href="#" class="fab fa-linkedin"></a>
+          </div>
+        </div>
+
+        <div class="box">
+          <h3>contact info</h3>
+          <a href="#" class="links">
+            <i class="fas fa-phone"></i> +123-456-7890
+          </a>
+          <a href="#" class="links">
+            <i class="fas fa-phone"></i> +111-222-3333
+          </a>
+          <a href="#" class="links">
+            <i class="fas fa-envelope"></i> skhadse@gmail.com
+          </a>
+          <a href="#" class="links">
+            <i class="fas fa-map-marker-alt"></i> USA - 95035
+          </a>
+        </div>
+
+        <div class="box">
+          <h3>quick links</h3>
+          <a href="#" class="links">
+            <i class="fas fa-arrow-right"></i> home
+          </a>
+          <a href="#" class="links">
+            <i class="fas fa-arrow-right"></i> features
+          </a>
+          <a href="#" class="links">
+            <i class="fas fa-arrow-right"></i> categories
+          </a>
+          <a href="#" class="links">
+            <i class="fas fa-arrow-right"></i> orders
+          </a>
+          <a href="#" class="links">
+            <i class="fas fa-arrow-right"></i> Tracking
+          </a>
+        </div>
+
+        <div class="box">
+          <h3>newsletter</h3>
+          <p>subscribe for latest updates</p>
+          <input type="email" placeholder="your email" class="email" />
+          <input type="submit" value="subscribe" class="btn" />
+          <img src="{% static 'image/payment.png' %}" class="payment-img" alt="" />
+        </div>
+      </div>
+    </section>
+
+    <!-- footer section ends -->
+
+    <script src="{% static 'vendor_js/swiper.js' %}"></script>
+
+    <!-- custom js file link  -->
+    <script src="{% static 'vendor_js/script.js' %}"></script>
+    <!-- <script src="{% static 'assets/js/backend-bundle.min.js' %}"></script> -->
+  </body>
+</html>

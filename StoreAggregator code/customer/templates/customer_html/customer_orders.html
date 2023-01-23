@@ -1,0 +1,233 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StoreAggregator</title>
+    <link rel="stylesheet" href="{% static 'customer_css/swiper.css' %}" />
+
+    <!-- font awesome cdn link  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="{% static 'customer_css/style.css' %}" />
+  </head>
+  <body>
+    <!-- categories section starts  -->
+    <header class="header">
+      <a href="#" class="logo">
+        <i class="fas fa-shopping-basket"></i>
+        StoreAggregator
+      </a>
+
+      <nav class="navbar">
+        <a href="/customers/home">home</a>
+        <a href="/customers/home/#features">features</a>
+        <a href="/customers/home/categories">categories</a>
+        <a href="/customers/home/products">products</a>
+        <a href="/customers/home#review">review</a>
+        <a href="/customers/home#blogs">blogs</a>
+        <a href="/customers/home/orders/">orders</a>
+      </nav>
+
+      <div class="icons">
+        <div class="fas fa-bars" id="menu-btn"></div>
+        <div class="fas fa-search" id="search-btn"></div>
+        <div class="fas fa-shopping-cart" id="cart-btn"></div>
+        <div class="fas fa-user" id="myprofile-btn"></div>
+      </div>
+
+      <form action="" class="search-form">
+        <input type="search" id="search-box" placeholder="search here..." />
+        <label for="search-box" class="fas fa-search"></label>
+      </form>
+
+      <div class="shopping-cart">
+        {% for cartitem in cart_items %}
+        <div class="box">
+          <a href="/customers/home/cart/product/remove/{{cartitem.product.id}}">
+            <i class="fas fa-trash"></i>
+          </a>
+          {% if cartitem.product.image %}
+            <img src="{{cartitem.product.image.url}}" alt="" />
+          {% else %}
+            <img src="{% static 'product_no_image.png' %}" alt="" />
+          {% endif %}
+          <div class="content">
+            <h3>{{cartitem.product.name}}</h3>
+            <span class="price">${{cartitem.product.price}}/-</span>
+            <span class="quantity">{{cartitem.quantity}}</span>
+          </div>
+        </div>
+        {% endfor %}
+        <div class="total">total : ${{cart_total}}/-</div>
+        <div class="total">Delivery Charges : ${{cart_delivery_charges}}/-</div>
+        {% if message.success == 1 %}
+          <script>
+            alert("Order placed successfully.")
+          </script>
+        {% elif message.error == 1 %}
+          <script>
+            alert("Something went wrong! Please try after sometime !!")
+          </script>
+        {% endif %}
+        <a href="/customers/home/orders/create_order/" class="btn">checkout</a>
+      </div>
+
+      <!-- My Profile Form -->
+      <form action="" class="myprofile-form" method="post">
+        <div
+          class="iq-sub-dropdown dropdown-menu"
+          aria-labelledby="dropdownMenuButton"
+        >
+          <div class="card shadow-none m-0">
+            <div class="card-body p-0 text-center">
+              <div class="media-body profile-detail text-center">
+                {% if customers.image %}
+                <img
+                  src="{{customers.image.url}}"
+                  alt="profile-img"
+                  class="rounded profile-img img-fluid avatar-70"
+                  style="width: 200px; height: 250px; border-radius: 50%;"
+                />
+                {% else %}
+                <img
+                  src="{% static 'user-image.png' %}"
+                  alt="profile-img"
+                  class="rounded profile-img img-fluid avatar-70"
+                  style="width: 200px; height: 250px; border-radius: 50%;"
+                />
+                {% endif %}
+              </div>
+              <div class="p-3">
+                <h1 class="mb-1">{{users.email}}</h1>
+                <h1 class="mb-0">Welcome {{users.first_name}}</h1>
+                <div
+                  class="d-flex align-items-center justify-content-center mt-3"
+                >
+                  <a
+                    href="/customers/home/customer_profile_edit/"
+                    class="btn border mr-2"
+                  >
+                    Profile
+                  </a>
+                  <a href="/customers/logout/" class="btn border">Sign Out</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </header>
+
+    <section class="categories" id="orders">
+      <h1 class="heading">
+        customer
+        <span>orders</span>
+      </h1>
+
+      <div class="box-container">
+        {% for order in orders %}
+        <div class="box">
+          <h4 style="float: right;">Placed On - {{order.added_on}}</h2><br><br>
+          <h2>Order No - {{order.id}}</h2>
+          <h1 class="heading" style="padding-top: 1rem;">{{order.vendor.company_name}}</h1>
+          <h2>Status : {{order.order_status.remark}}</h2>
+          <h3 hidden="True">{{order.id}}</h3>
+          <p>No of items : {{order.no_of_items}}</p>
+          <a href="/customers/home/orders/{{order.id}}" class="btn">Check Details</a>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- footer section starts  -->
+    <section class="footer">
+      <div class="box-container">
+        <div class="box">
+          <h3>
+            Store Aggregator
+            <i class="fas fa-shopping-basket"></i>
+          </h3>
+          <p>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquam,
+            saepe.
+          </p>
+          <div class="share">
+            <a href="#" class="fab fa-facebook-f"></a>
+            <a href="#" class="fab fa-twitter"></a>
+            <a href="#" class="fab fa-instagram"></a>
+            <a href="#" class="fab fa-linkedin"></a>
+          </div>
+        </div>
+
+        <div class="box">
+          <h3>contact info</h3>
+          <a href="#" class="links">
+            <i class="fas fa-phone"></i>
+            +123-456-7890
+          </a>
+          <a href="#" class="links">
+            <i class="fas fa-phone"></i>
+            +111-222-3333
+          </a>
+          <a href="#" class="links">
+            <i class="fas fa-envelope"></i>
+            savita@gmail.com
+          </a>
+          <a href="#" class="links">
+            <i class="fas fa-map-marker-alt"></i>
+            Milpitas, USA
+          </a>
+        </div>
+
+        <div class="box">
+          <h3>quick links</h3>
+          <a href="#" class="links">
+            <i class="fas fa-arrow-right"></i>
+            home
+          </a>
+          <a href="#" class="links">
+            <i class="fas fa-arrow-right"></i>
+            features
+          </a>
+          <a href="#" class="links">
+            <i class="fas fa-arrow-right"></i>
+            products
+          </a>
+          <a href="#" class="links">
+            <i class="fas fa-arrow-right"></i>
+            categories
+          </a>
+          <a href="#" class="links">
+            <i class="fas fa-arrow-right"></i>
+            review
+          </a>
+          <a href="#" class="links">
+            <i class="fas fa-arrow-right"></i>
+            blogs
+          </a>
+        </div>
+
+        <div class="box">
+          <h3>newsletter</h3>
+          <p>subscribe for latest updates</p>
+          <input type="email" placeholder="your email" class="email" />
+          <input type="submit" value="subscribe" class="btn" />
+          <img src="{% static 'payment.png' %}" class="payment-img" alt="" />
+        </div>
+      </div>
+    </section>
+    <!-- footer section ends -->
+    <script src="{% static 'customer_js/swiper.js' %}"></script>
+
+    <!-- custom js file link  -->
+    <script src="{% static 'customer_js/script.js' %}"></script>
+  </body>
+</html>

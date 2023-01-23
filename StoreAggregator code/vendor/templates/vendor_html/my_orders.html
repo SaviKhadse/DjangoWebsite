@@ -1,0 +1,320 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StoreAggregator</title>
+    <link rel="stylesheet" href="{% static 'customer_css/swiper.css' %}" />
+
+    <!-- font awesome cdn link  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="{% static 'customer_css/style.css' %}" />
+  </head>
+  <body>
+    <!-- categories section starts  -->
+    <header class="header">
+      <a href="#" class="logo">
+        <i class="fas fa-shopping-basket"></i>
+        StoreAggregator
+      </a>
+
+      <style>
+        /* The navigation menu */
+        .navbar {
+          overflow: hidden;
+        }
+        
+        /* Navigation links */
+        .navbar a {
+          float: left;
+          font-size: 16px;
+          color: rgb(4, 4, 4);
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+        }
+        
+        /* The subnavigation menu */
+        .subnav {
+          float: left;
+          overflow: hidden;
+        }
+        
+        /* Subnav button */
+        .subnav .subnavbtn {
+          font-size: 16px; 
+          border: none;
+          outline: none;
+          color: rgb(5, 5, 5);
+          padding: 14px 16px;
+          background-color: inherit;
+          font-family: inherit;
+          margin: 0;
+        }
+        
+        /* Style the subnav content - positioned absolute */
+        .subnav-content {
+          display: none;
+          position: absolute;
+          left: 0;
+          background-color: rgb(123, 116, 109);
+          width: 100%;
+          z-index: 1;
+        }
+        
+        /* Style the subnav links */
+        .subnav-content a {
+          float: right;
+          color: white;
+          text-decoration: none;
+          padding-right: 5rem;
+        }
+        
+        /* Add a grey background color on hover */
+        .subnav-content a:hover {
+          color: black;
+        }
+        
+        /* When you move the mouse over the subnav container, open the subnav content */
+        .subnav:hover .subnav-content {
+          display: block;
+        }
+      </style>
+
+      <nav class ="navbar">
+        <a href="/vendors/home/">home</a>
+        <a href="/vendors/home/#categories">categories</a>
+        <a href="/vendors/dashboard/">Dashboard</a>
+        <div class="subnav">
+          <button class="subnavbtn">orders <i class="fa fa-caret-down"></i></button>
+          <div class="subnav-content">
+            {% for status in order_status%}
+            <a href="/vendors/home/orders/{{status.id}}">{{status.remark}}</a>
+            {% endfor %}
+          </div>
+      </nav>
+
+      <div class="icons">
+        <div class="fas fa-bars" id="menu-btn"></div>
+        <div class="fas fa-search" id="search-btn"></div>
+        <div class="fas fa-shopping-cart" id="cart-btn" style="display: none;"></div>
+        <div class="fas fa-user" id="myprofile-btn"></div>
+      </div>
+
+      <form action="" class="search-form">
+        <input type="search" id="search-box" placeholder="search here..." />
+        <label for="search-box" class="fas fa-search"></label>
+      </form>
+
+      <div class="shopping-cart">
+      </div>
+
+      <!-- My Profile Form -->
+      <form action="" class="myprofile-form" method="post">
+        <div
+          class="iq-sub-dropdown dropdown-menu"
+          aria-labelledby="dropdownMenuButton"
+        >
+          <div class="card shadow-none m-0">
+            <div class="card-body p-0 text-center">
+              <div class="media-body profile-detail text-center">
+                {% if customers.image %}
+                <img
+                  src="{{customers.image.url}}"
+                  alt="profile-img"
+                  class="rounded profile-img img-fluid avatar-70"
+                  style="width: 200px; height: 250px; border-radius: 50%;"
+                />
+                {% else %}
+                <img
+                  src="{% static 'user-image.png' %}"
+                  alt="profile-img"
+                  class="rounded profile-img img-fluid avatar-70"
+                  style="width: 200px; height: 250px; border-radius: 50%;"
+                />
+                {% endif %}
+              </div>
+              <div class="p-3">
+                <h2 class="mb-1">{{users.email}}</h2>
+                <h1 class="mb-0">Welcome {{users.first_name}}</h1>
+                <div
+                  class="d-flex align-items-center justify-content-center mt-3"
+                >
+                  <a
+                    href="/customers/home/customer_profile_edit/"
+                    class="btn border mr-2"
+                  >
+                    Profile
+                  </a>
+                  <a href="/customers/logout/" class="btn border">Sign Out</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </header>
+
+    <section class="categories" id="orders">
+      <h1 class="heading">
+        customer's
+        <span>orders</span>
+      </h1>
+
+      {% for order in orders %}
+      <div class="box-container">
+        <style>
+          #customers {
+            font-size: medium;
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+          }
+
+          #customers td, #customers th {
+            border: 1px solid #ddd;
+            padding: 8px;
+          }
+
+          #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+          #customers tr:hover {background-color: #ddd;}
+
+          #customers th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #d3841d;
+            color: rgb(8, 8, 8);
+            text-align: center;
+          }
+        </style>
+        <div class="box">
+          {% if order.order_status.name == 'order_placed'%}
+          <script>
+            function confirm_staus_change(){
+              alert("Click OK to confirm.")
+            }
+          </script>
+          <a href="/vendors/home/orders/change_status/{{order.id}}" class="btn" style="float: right; margin-top: 10px;" onclick="confirm_staus_change()">Ready For Dispatch ?</a>
+          {% endif %}
+          <h2 style="float: left; padding-right: 2rem;">Status : {{order.order_status.remark}}</h2><br><br>
+          <h2 style="float: left; padding-right: 2rem;">Placed On : {{order.added_on}}</h2><br>
+          <h1 class="heading" style="padding-top: 30px;">Order No - {{order.id}}</h1>
+          <h3 style="padding-top: 1rem;">Customer - {{order.customer.user.first_name}}  {{order.customer.user.last_name}}</h3>
+          <div style="padding-top: 3rem;"></div>
+          <table id="customers">
+            <tr>
+              <th>Item</th>
+              <th>Description</th>
+              <th>Quantity</th>
+              <th>Price</th>
+            </tr>
+            {% for order_item in order_items %}
+            {% if order_item.order_id == order.id%}
+            <tr>
+              <td>{{order_item.product.name}}</td>
+              <td>{{order_item.product.description}}</td>
+              <td>{{order_item.quantity}}</td>
+              <td>{{order_item.price}}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+          </table>
+        </div>
+      </div><br><br>
+      {% endfor %}
+    </section>
+
+    <!-- footer section starts  -->
+    <section class="footer">
+      <div class="box-container">
+        <div class="box">
+          <h3>
+            Storeaggregator
+            <i class="fas fa-shopping-basket"></i>
+          </h3>
+          <p>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquam,
+            saepe.
+          </p>
+          <div class="share">
+            <a href="#" class="fab fa-facebook-f"></a>
+            <a href="#" class="fab fa-twitter"></a>
+            <a href="#" class="fab fa-instagram"></a>
+            <a href="#" class="fab fa-linkedin"></a>
+          </div>
+        </div>
+
+        <div class="box">
+          <h3>contact info</h3>
+          <a href="#" class="links">
+            <i class="fas fa-phone"></i>
+            +123-456-7890
+          </a>
+          <a href="#" class="links">
+            <i class="fas fa-phone"></i>
+            +111-222-3333
+          </a>
+          <a href="#" class="links">
+            <i class="fas fa-envelope"></i>
+            savita@gmail.com
+          </a>
+          <a href="#" class="links">
+            <i class="fas fa-map-marker-alt"></i>
+            Milpitas, USA
+          </a>
+        </div>
+
+        <div class="box">
+          <h3>quick links</h3>
+          <a href="#" class="links">
+            <i class="fas fa-arrow-right"></i>
+            home
+          </a>
+          <a href="#" class="links">
+            <i class="fas fa-arrow-right"></i>
+            features
+          </a>
+          <a href="#" class="links">
+            <i class="fas fa-arrow-right"></i>
+            products
+          </a>
+          <a href="#" class="links">
+            <i class="fas fa-arrow-right"></i>
+            categories
+          </a>
+          <a href="#" class="links">
+            <i class="fas fa-arrow-right"></i>
+            review
+          </a>
+          <a href="#" class="links">
+            <i class="fas fa-arrow-right"></i>
+            blogs
+          </a>
+        </div>
+
+        <div class="box">
+          <h3>newsletter</h3>
+          <p>subscribe for latest updates</p>
+          <input type="email" placeholder="your email" class="email" />
+          <input type="submit" value="subscribe" class="btn" />
+          <img src="{% static 'payment.png' %}" class="payment-img" alt="" />
+        </div>
+      </div>
+    </section>
+    <!-- footer section ends -->
+    <script src="{% static 'customer_js/swiper.js' %}"></script>
+
+    <!-- custom js file link  -->
+    <script src="{% static 'customer_js/script.js' %}"></script>
+  </body>
+</html>
