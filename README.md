@@ -1,3 +1,10 @@
+Store Aggregator Web app 
+Designed user Interface using modern JavaScript, HTML5, CSS3 and Bootstrap. Built and customized Web components to craft dynamic user-interactions. Developed the web allows users to purchase grocery and medicine online by benefiting the google map interaction to see real time location of the store. 
+Technology Stack: HTML, CSS, JavaScript, Django-Python, MySQL 
+
+![image](https://user-images.githubusercontent.com/108047252/220836909-fd97f066-a1b6-4bdf-85ed-f11e0bab3543.png)
+
+
 # DjangoWebsiteShopping
 Storeaggregator website for grocery and medicine using python and Django
 
