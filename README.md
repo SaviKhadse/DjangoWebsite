@@ -4,7 +4,7 @@ Description: Designed user Interface using modern JavaScript, HTML5, CSS3 and Bo
 Technology Stack: HTML, CSS, JavaScript, Django-Python, MySQL 
 
 
-# DjangoWebsiteShopping
+# DjangoShoppingWebsite
 Storeaggregator website for grocery and medicine using python and Django
 
 Django follows a Model View Template architecture or MTC architecture. So there are 3 components. The first part is Model. The Model is the Logical data structure behind the entire web application and signified by a database. Template deals with the presentation of the data and you also have a view. So a view is a user interface so what you see when you visit a website is called user interface and that is represented by HTML CSS and javascript files.![image](https://user-images.githubusercontent.com/108047252/215082443-6bf302eb-1b39-4639-bfd7-144793867185.png)
